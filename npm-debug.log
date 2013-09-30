@@ -1,0 +1,27 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'jade' ]
+2 info using npm@1.1.71
+3 info using node@v0.6.18
+4 verbose node symlink /usr/local/bin/node
+5 verbose read json /Users/sampurcell/Projects/Kayak/package.json
+6 error Error: No 'name' field
+6 error     at validName (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:557:40)
+6 error     at final (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:340:27)
+6 error     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:140:33
+6 error     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:48:11)
+6 error     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:320:48
+6 error     at [object Object].<anonymous> (fs.js:98:14)
+6 error     at [object Object].emit (events.js:64:17)
+6 error     at [object Object].<anonymous> (fs.js:92:18)
+6 error     at [object Object].emit (events.js:67:17)
+6 error     at fs.js:1077:12
+7 error If you need help, you may report this log at:
+7 error     <http://github.com/isaacs/npm/issues>
+7 error or email it to:
+7 error     <npm-@googlegroups.com>
+8 error System Darwin 11.4.2
+9 error command "node" "/usr/local/bin/npm" "install" "jade"
+10 error cwd /Users/sampurcell/Projects/Kayak
+11 error node -v v0.6.18
+12 error npm -v 1.1.71
+13 verbose exit [ 1, true ]

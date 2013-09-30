@@ -1,0 +1,8 @@
+{
+	"dependencies": {
+		"jade":"*",
+		"mongojs":"*",
+		"mongodb": "*",
+		"express":"*"		
+	}
+}
