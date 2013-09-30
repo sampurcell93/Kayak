@@ -1,4 +1,4 @@
-.sass-cache
+*.sass-cache*
 *.psd
 *.tiff
 .DS_Store
