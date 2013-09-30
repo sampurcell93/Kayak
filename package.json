@@ -3,6 +3,7 @@
 		"jade":"*",
 		"mongojs":"*",
 		"mongodb": "*",
-		"express":"*"		
+		"express":"*",
+		"underscore":"*"
 	}
 }
