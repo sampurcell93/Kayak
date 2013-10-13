@@ -5,29 +5,32 @@ html
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
         link(rel='stylesheet', media='screen', type='text/css', href='../stylesheets/screen.css')
     body
-        .container.large.wrapper
-            header
-                label.columns.five
-                    span Search For 
-                    input(type='text').js-search-types
-                label.columns.five
-                    span within
-                    select.js-set-distance
-                        option(value='1') 1
-                        option(value='2') 2
-                        option(value='5') 5
-                        option(value='10') 10
-                        option(value='15') 15
-                        option(value='25') 25
-                    span miles
-            .relative.oh
-                .map-canvas
-                ul.list-results
+            //- header
+            //-     label.columns.five
+            //-         span Search For 
+            //-         input(type='text').js-search-types
+            //-     label.columns.five
+            //-         span within
+            //-         select.js-set-distance
+            //-             option(value='1') 1
+            //-             option(value='2') 2
+            //-             option(value='5') 5
+            //-             option(value='10') 10
+            //-             option(value='15') 15
+            //-             option(value='25') 25
+            //-         span miles
+            .map-canvas
+            ul.list-results
+            footer
+                label
+                    input(type='checkbox', name='filter') Restaurants
+                label
+                    input(type='checkbox', name='filter') Hotels
         include templates
-        script(type="text/javascript",src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoS1bfOyPBTbYH1GhtD4xRs9XrT17nGwg&sensor=true")
-        script(type='text/javascript', src='../js/jquery.js')
-        script(type='text/javascript', src='../js/underscore.js')
-        script(type='text/javascript', src='../js/backbone.js')
-        script(type='text/javascript', src='../js/typeahead.min.js')
-        script(type='text/javascript', src='../js/map.js')
-        script(type='text/javascript', src='../js/type.js')
+    script(type="text/javascript",src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoS1bfOyPBTbYH1GhtD4xRs9XrT17nGwg&sensor=true")
+    script(type='text/javascript', src='../js/jquery.js')
+    script(type='text/javascript', src='../js/underscore.js')
+    script(type='text/javascript', src='../js/backbone.js')
+    //- script(type='text/javascript', src='../js/typeahead.min.js')
+    script(type='text/javascript', src='../js/map.js')
+    //- script(type='text/javascript', src='../js/type.js')

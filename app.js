@@ -15,7 +15,7 @@
 
   MONGO_URI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "builder";
 
-  db = require("mongojs").connect(MONGO_URI, ["classes", "sections", "layouts", "generics"]);
+  db = require("mongojs").connect(MONGO_URI);
 
   yelp = require("yelp").createClient({
     consumer_key: "hq2hHKOYSQFmHU_wBOosyg",
@@ -24,7 +24,7 @@
     token_secret: "2UEu8pkO8G24vamnDwNTdKYdbpA"
   });
 
-  cc = function() {
+  cc = function(arguuments) {
     return _.each(arguments, function(arg) {
       return console.log(arg);
     });
@@ -65,8 +65,12 @@
       term: req.query.type
     };
     cc(requestobj);
-    return yelp.search(requestobj, function(error, data) {
+    return yelp.search({
+      location: 'Montreal',
+      term: 'food'
+    }, function(error, data) {
       if (typeof err === "undefined" || err === null) {
+        cc(data.businesses.length);
         return res.json(data);
       } else {
         return res.json(err);

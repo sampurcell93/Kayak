@@ -4,14 +4,14 @@ mongo = require "mongodb"
 _ = require 'underscore'
 app = do express
 MONGO_URI = process.env.MONGOLAB_URI or process.env.MONGOHQ_URL or "builder"
-db = require("mongojs").connect(MONGO_URI, ["classes", "sections", "layouts", "generics"])
-yelp = require("yelp").createClient(
+db = require("mongojs").connect(MONGO_URI)
+yelp = require("yelp").createClient
   consumer_key: "hq2hHKOYSQFmHU_wBOosyg"
   consumer_secret: "WvnfNhJ1Umcdcnyxo8xJ9QO5tGg"
   token: "YdrbgbIcPL1zwj1JI5SD3MHOfSHgkkV2"
   token_secret: "2UEu8pkO8G24vamnDwNTdKYdbpA"
-)
-cc = ->
+
+cc = (arguuments) ->
     _.each arguments, (arg) ->
         console.log arg
 
@@ -42,8 +42,9 @@ app.get "/search", (req, res) ->
         ll : req.query.lat + "," + req.query.lng
         term  : req.query.type
     cc requestobj
-    yelp.search requestobj, (error, data) ->
+    yelp.search {location: 'Montreal', term: 'food'}, (error, data) ->
         if !err?
+            cc data.businesses.length
             res.json data
         else    
             res.json err

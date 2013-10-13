@@ -18,15 +18,15 @@ $ ->
     lng = coords.longitude
     cc lat
     cc lng
-    window.map = new Map(lat, lng)
+    window.map = new Map(lat, lng, 17)
     window.user = new User {lat: lat, lng: lng}
 
   if navigator.geolocation
     navigator.geolocation.getCurrentPosition begin
   else
-    alert("We'll need you to use a browser that supports geolocation! Help yourself get comfortable!")
+    alert("We'll need you to use a browser that supports geolocation! Help yourself!")
 
-  Map = (@lat, @lng) ->
+  Map = (@lat, @lng, @zoom) ->
     start =  new google.maps.LatLng @lat, @lng
     @infowindow = new google.maps.InfoWindow()
     @startmarker = new google.maps.Marker(
@@ -36,7 +36,7 @@ $ ->
     )
     @mapOptions = 
       center: start
-      zoom: 20
+      zoom: @zoom || 20
       mapTypeId: google.maps.MapTypeId.ROADMAP
     @map = new google.maps.Map(document.getElementsByClassName("map-canvas")[0],@mapOptions);
     @startmarker.setMap @map
