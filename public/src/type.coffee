@@ -12,7 +12,7 @@ $ ->
             render: (context) -> 
                 compiled(context)
 
-    $(".js-search-types").typeahead
+    $(".js-search").typeahead
         local: types
         limit: 10000
         engine: Underscore

@@ -1,2 +1,15 @@
-script(type='text/template')#typeahead-item
-    <%= value %>
+script(type='text/template')#business-item
+    div 
+        <%= type == "food" ? "<i class='icon-food'></i>" : "<i class='icon-house'></i>" %>
+        <a href="<%= mobile_url %>" title="<%= name %>"><%= name %></a>
+        span.fr.stars
+            <% for (i = 0; i < 5; i++) { %>
+            <% if (i == rating - 0.5) { %>
+            <%= "<i class='icon-star-half'></i>" %>
+            <% } else if (i < rating) { %>
+            <%= "<i class='icon-star'></i>" %>
+            <% } else { %>
+            <%= "<i class='icon-star-empty'></i>" %>
+            <% }} %>
+    span.is-closed
+        <%= is_closed == true ? "Closed" : "Open" %>

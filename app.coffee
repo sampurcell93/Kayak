@@ -3,8 +3,8 @@ express = require "express"
 mongo = require "mongodb"
 _ = require 'underscore'
 app = do express
-MONGO_URI = process.env.MONGOLAB_URI or process.env.MONGOHQ_URL or "builder"
-db = require("mongojs").connect(MONGO_URI)
+# MONGO_URI = process.env.MONGOLAB_URI or process.env.MONGOHQ_URL
+# db = require("mongojs").connect(MONGO_URI)
 yelp = require("yelp").createClient
   consumer_key: "hq2hHKOYSQFmHU_wBOosyg"
   consumer_secret: "WvnfNhJ1Umcdcnyxo8xJ9QO5tGg"
@@ -37,14 +37,24 @@ app.get "/", (req, res) ->
     res.render "index"
 
 
-app.get "/search", (req, res) ->
-    requestobj =
-        ll : req.query.lat + "," + req.query.lng
-        term  : req.query.type
-    cc requestobj
-    yelp.search {location: 'Montreal', term: 'food'}, (error, data) ->
-        if !err?
-            cc data.businesses.length
-            res.json data
-        else    
-            res.json err
+app.get "/search/:lat/:lng/:offset", (req, res) ->
+  q = req.params
+  wantfood = req.query.wantfood
+  wanthotels = req.query.wanthotels
+  requestobj =
+      ll : q.lat + "," + q.lng
+      offset: q.offset
+      term: 'Food'
+  json = { food: null, hotels: null}
+  yelp.search requestobj, (error, food) ->
+      if !err?
+        json.food = food
+        requestobj.term = "hotels"
+        yelp.search requestobj, (error, hotels) ->
+          if !err?
+            json.hotels = hotels
+            res.json json
+          else    
+            res.json json.food
+      else    
+          res.json err

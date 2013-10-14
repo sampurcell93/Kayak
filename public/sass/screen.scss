@@ -8,18 +8,24 @@
 @import "compass/utilities/general/clearfix";
 @import "build";
 @import "smart-grid";
+$selected: #D35050;
+$darker: #A33737;
 
 * {
     @include box-sizing(border-box);
     margin: 0;
     padding: 0;
 }
-html { height: 100%; }
+html { 
+    height: 100%; 
+    overflow: hidden;
+}
 
 body {
     font-family: $lato;
     background: #333;
     height: 100%;
+    overflow: hidden;
 }
 
 .map-canvas {
@@ -28,21 +34,164 @@ body {
     height: 100%;
 }
 
-ul.list-results {
-    @include box-shadow(0px 2px 4px #bbb);
-    @include transition(right .4s ease-in-out);
-    position: absolute;
-    width: 250px;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    background: rgba(255,255,255,.6);
+a {
+    color: inherit;
+    text-decoration: none;
 
-    &.showing {
-        right: 0px;
+    &:hover { 
+        color: $selected;
+        text-decoration: underline;        
     }
 }
 
-footer {
+h2 {
+    font-size: 1.7em;
+}
+
+header {
+    text-shadow: 0px 1px 0px #fff;
+    // needs latest Compass, add '@import "compass"' to your scss
+    background-color: rgb(252,255,244); // Old browsers
+    @include filter-gradient(#fcfff4, #e9e9ce, vertical); // IE6-9
+    @include background-image(linear-gradient(top,  rgba(252,255,244,1) 0%,rgba(233,233,206,1) 100%));
+    padding: 5px 10px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+
+    .icon-menu, .icon-equalizer {
+        padding: 15px 0;
+        position: absolute;
+        right: 7px;
+        cursor: pointer;
+        top: 0px;
+        @include transition(right .4s ease-in-out, font-size .4s ease-in-out, padding .4s ease-in-out, background .4s ease-in-out, top .4s ease-in-out, border .4s ease-in-out, box-shadow .4s ease-in-out, border-radius .4s ease-in-out);
+
+        &:hover { color: $selected;}
+
+        &.outside {
+            @include border-radius(50%);
+            @include box-shadow(0px 2px 2px #bbb);
+            border: 1px solid #bbb;
+            right: -130px;
+            top: 20px;
+            padding: 15px;
+            color: #777;
+            font-size: 1.2em;
+            background: #f9f9f9;
+        }
+    }
+
+    .icon-equalizer {
+        right: 30px;
+    }
+}
+
+.settings {
+    background: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+
+    label {
+        width: 45%;
+        display: inline-block;
+    }
+}
+
+.list-results {
+    @include box-shadow(0px 2px 4px #bbb);
+    @include transition(left .4s ease-in-out);
     position: absolute;
+    width: 400px;
+    padding-bottom: 0px;
+    height: 100%;
+    top: 0 ;
+    left: 0px;
+    background: rgba(255,255,255,.6);
+
+    &.hidden {
+        left: -400px;
+    }
+
+    ul {
+        height: 90%;
+        overflow: auto;
+    }
+
+    li {
+        font-size: 1.13em;
+        height: 60px;
+        padding: 7px;
+        position: relative;
+        outline: none;
+
+        &.selected {
+            color: #f9f9f9;
+            background: $selected;
+            border-bottom: 1px solid $darker;
+            border-top: 1px solid $darker;
+    
+            a:hover { color: #fff; }
+
+            .stars {
+                .icon-star, .icon-star-half { color: #f9f9f9; }
+                .icon-star-empty { color: black; }
+            }
+            .icon-food, .icon-house { 
+                color: #222;
+            }
+            .is-closed { color: #f9f9f9; }
+        }
+
+        &.loader {
+            text-decoration: underline;
+            cursor: pointer;
+
+            &:hover {
+                color: $selected;
+            }
+        }
+
+        .icon-food, .icon-house { 
+            padding-right: 5px;
+            color: #707070;
+        }
+    }
+}
+
+.is-closed {
+    color: #676767;
+    font-size: .85em;
+    float: right;
+    padding-right: 5px;
+}
+
+.stars {
+    font-size: .8em;
+    .icon-star, .icon-star-half {
+        color: $selected;
+    }
+    .icon-star-empty {
+        color:#777;
+    }
+}
+
+label {
+    .icon-search {
+        position: relative;
+        right: -10px;
+    }
+}
+
+input[type='text'] {
+    outline: none;
+    display: inline-block;
+    @include border-radius(10px);
+    border: 1px solid #ccc;
+    width: 89%;
+    padding: 7px 9px 7px 40px;
+    font-size: 1.2em;
+    margin-left: -20px;
+
+    &:focus {
+        @include box-shadow(0px 0px 8px $selected);
+    }
 }

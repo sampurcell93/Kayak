@@ -3,7 +3,7 @@
 
 
 (function() {
-  var MONGO_URI, app, cc, db, express, mongo, port, yelp, _;
+  var app, cc, express, mongo, port, yelp, _;
 
   express = require("express");
 
@@ -12,10 +12,6 @@
   _ = require('underscore');
 
   app = express();
-
-  MONGO_URI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "builder";
-
-  db = require("mongojs").connect(MONGO_URI);
 
   yelp = require("yelp").createClient({
     consumer_key: "hq2hHKOYSQFmHU_wBOosyg",
@@ -58,20 +54,32 @@
     return res.render("index");
   });
 
-  app.get("/search", function(req, res) {
-    var requestobj;
+  app.get("/search/:lat/:lng/:offset", function(req, res) {
+    var json, q, requestobj, wantfood, wanthotels;
+    q = req.params;
+    wantfood = req.query.wantfood;
+    wanthotels = req.query.wanthotels;
     requestobj = {
-      ll: req.query.lat + "," + req.query.lng,
-      term: req.query.type
+      ll: q.lat + "," + q.lng,
+      offset: q.offset,
+      term: 'Food'
     };
-    cc(requestobj);
-    return yelp.search({
-      location: 'Montreal',
-      term: 'food'
-    }, function(error, data) {
+    json = {
+      food: null,
+      hotels: null
+    };
+    return yelp.search(requestobj, function(error, food) {
       if (typeof err === "undefined" || err === null) {
-        cc(data.businesses.length);
-        return res.json(data);
+        json.food = food;
+        requestobj.term = "hotels";
+        return yelp.search(requestobj, function(error, hotels) {
+          if (typeof err === "undefined" || err === null) {
+            json.hotels = hotels;
+            return res.json(json);
+          } else {
+            return res.json(json.food);
+          }
+        });
       } else {
         return res.json(err);
       }

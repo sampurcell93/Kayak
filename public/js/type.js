@@ -28,7 +28,7 @@
         };
       }
     };
-    return $(".js-search-types").typeahead({
+    return $(".js-search").typeahead({
       local: types,
       limit: 10000,
       engine: Underscore,
