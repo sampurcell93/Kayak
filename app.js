@@ -55,14 +55,12 @@
   });
 
   app.get("/search/:lat/:lng/:offset", function(req, res) {
-    var json, q, requestobj, wantfood, wanthotels;
+    var json, q, requestobj;
     q = req.params;
-    wantfood = req.query.wantfood;
-    wanthotels = req.query.wanthotels;
     requestobj = {
       ll: q.lat + "," + q.lng,
       offset: q.offset,
-      term: 'Food'
+      term: 'food'
     };
     json = {
       food: null,

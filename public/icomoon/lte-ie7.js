@@ -17,7 +17,8 @@ window.onload = function() {
 			'icon-search' : '&#xe014;',
 			'icon-star' : '&#xe00a;',
 			'icon-star-half' : '&#xe00b;',
-			'icon-star-empty' : '&#xe00c;'
+			'icon-star-empty' : '&#xe00c;',
+			'icon-checkmark' : '&#xe007;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, c, el;

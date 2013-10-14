@@ -1,7 +1,8 @@
 !!!5
 html
     head
-        title Don't Get Stranded!
+        title Find somewhere.
+        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
         link(rel='stylesheet', media='screen', type='text/css', href='../stylesheets/screen.css')
         link(rel='stylesheet', media='screen', type='text/css', href='../icomoon/style.css')
@@ -15,18 +16,20 @@ html
                     i.icon-menu.js-toggle-businesses(data-switch-icon='icon-remove')
                     i.icon-equalizer.js-toggle-settings
                 div.settings
-                    label
+                    label.icon-food.selected
                         input(type='checkbox', name='filter', value='food', checked) 
                         | Food
-                    label
+
+                    label.icon-house.selected
                         input(type='checkbox', name='filter', value='hotel', checked) 
                         | Hotels
-                    | Sort by:
-                    select(name='sortby')
-                        option(value='distance') Closest
-                        option(value='rating') Rating
+                    label.icon-star.selected
+                        input(type='radio', name='sortby', value='rating', checked) 
+                        | Rating
 
-
+                    label.icon-house
+                        input(type='radio', name='sortby', value='distance') 
+                        | Distance
 
                 ul
                     li.loader.center Load more results

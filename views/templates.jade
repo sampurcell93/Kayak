@@ -1,6 +1,7 @@
 script(type='text/template')#business-item
+    <% function mtomiles(meters) { return (meters/1609.34).toFixed(2)} %>
     div 
-        <%= type == "food" ? "<i class='icon-food'></i>" : "<i class='icon-house'></i>" %>
+        <%= typeof type !== "undefined" && type == "food" ? "<i class='icon-food'></i>" : "<i class='icon-house'></i>" %>
         <a href="<%= mobile_url %>" title="<%= name %>"><%= name %></a>
         span.fr.stars
             <% for (i = 0; i < 5; i++) { %>
@@ -12,4 +13,28 @@ script(type='text/template')#business-item
             <%= "<i class='icon-star-empty'></i>" %>
             <% }} %>
     span.is-closed
-        <%= is_closed == true ? "Closed" : "Open" %>
+        <%= is_closed == true ? "Closed" : "" %>
+    span.distance
+        <%=  mtomiles(distance) + " miles" %>
+
+script(type='text/template')#gmaps-view 
+    <% function mtomiles(meters) { return (meters/1609.34).toFixed(2)} %>
+    div.w6
+        h2
+            <%= name %>
+            <%=  " - " + mtomiles(distance) + " miles" %>
+        p.snippet
+            <%= snippet_text %>
+        span.phone Phone: <%= display_phone %>
+        span.fr.stars
+            <% for (i = 0; i < 5; i++) { %>
+            <% if (i == rating - 0.5) { %>
+            <%= "<i class='icon-star-half'></i>" %>
+            <% } else if (i < rating) { %>
+            <%= "<i class='icon-star'></i>" %>
+            <% } else { %>
+            <%= "<i class='icon-star-empty'></i>" %>
+            <% }} %>
+    div.w3.fr
+        <img src='<%= image_url %>' />
+    .clear

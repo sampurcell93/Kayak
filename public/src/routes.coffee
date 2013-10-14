@@ -5,7 +5,6 @@ $ ->
         # name is id attribute
         showBusiness: (id) ->
             b = window.businesses._byId[id]
-            cc id 
             if b
                 window.businesses.selectItem b
 

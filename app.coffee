@@ -39,12 +39,10 @@ app.get "/", (req, res) ->
 
 app.get "/search/:lat/:lng/:offset", (req, res) ->
   q = req.params
-  wantfood = req.query.wantfood
-  wanthotels = req.query.wanthotels
   requestobj =
       ll : q.lat + "," + q.lng
       offset: q.offset
-      term: 'Food'
+      term: 'food'
   json = { food: null, hotels: null}
   yelp.search requestobj, (error, food) ->
       if !err?

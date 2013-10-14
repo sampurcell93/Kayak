@@ -190,18 +190,18 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* line 27, ../sass/build.scss */
-.clearfix {
+.clearfix, .list-results li {
   zoom: 1;
 }
 /* line 29, ../sass/build.scss */
-.clearfix:before, .clearfix:after {
+.clearfix:before, .list-results li:before, .clearfix:after, .list-results li:after {
   content: "\0020";
   display: block;
   height: 0;
   overflow: hidden;
 }
 /* line 35, ../sass/build.scss */
-.clearfix:after {
+.clearfix:after, .list-results li:after {
   clear: both;
 }
 
@@ -1289,11 +1289,23 @@ a:hover {
 }
 
 /* line 47, ../sass/screen.scss */
-h2 {
+p {
+  line-height: 1.7;
+  padding: 7px;
+}
+
+/* line 53, ../sass/screen.scss */
+h2, .gm-style-iw h2 {
   font-size: 1.7em;
 }
 
-/* line 51, ../sass/screen.scss */
+/* line 58, ../sass/screen.scss */
+.gm-style-iw .stars {
+  position: relative;
+  top: 3px;
+}
+
+/* line 64, ../sass/screen.scss */
 header {
   text-shadow: 0px 1px 0px #fff;
   background-color: #fcfff4;
@@ -1308,7 +1320,7 @@ header {
   border-bottom: 1px solid #ccc;
   position: relative;
 }
-/* line 61, ../sass/screen.scss */
+/* line 74, ../sass/screen.scss */
 header .icon-menu, header .icon-equalizer {
   padding: 15px 0;
   position: absolute;
@@ -1320,11 +1332,11 @@ header .icon-menu, header .icon-equalizer {
   -o-transition: right 0.4s ease-in-out, font-size 0.4s ease-in-out, padding 0.4s ease-in-out, background 0.4s ease-in-out, top 0.4s ease-in-out, border 0.4s ease-in-out, box-shadow 0.4s ease-in-out, border-radius 0.4s ease-in-out;
   transition: right 0.4s ease-in-out, font-size 0.4s ease-in-out, padding 0.4s ease-in-out, background 0.4s ease-in-out, top 0.4s ease-in-out, border 0.4s ease-in-out, box-shadow 0.4s ease-in-out, border-radius 0.4s ease-in-out;
 }
-/* line 69, ../sass/screen.scss */
+/* line 82, ../sass/screen.scss */
 header .icon-menu:hover, header .icon-equalizer:hover {
   color: #d35050;
 }
-/* line 71, ../sass/screen.scss */
+/* line 84, ../sass/screen.scss */
 header .icon-menu.outside, header .icon-equalizer.outside {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -1340,25 +1352,79 @@ header .icon-menu.outside, header .icon-equalizer.outside {
   padding: 15px;
   color: #777;
   font-size: 1.2em;
-  background: #f9f9f9;
+  background: #fff;
 }
-/* line 84, ../sass/screen.scss */
+/* line 97, ../sass/screen.scss */
 header .icon-equalizer {
   right: 30px;
 }
 
-/* line 89, ../sass/screen.scss */
+/* line 102, ../sass/screen.scss */
 .settings {
   background: #f9f9f9;
-  border-bottom: 1px solid #ccc;
 }
-/* line 93, ../sass/screen.scss */
+/* line 105, ../sass/screen.scss */
 .settings label {
-  width: 45%;
+  text-align: center;
+  width: 50%;
+  position: relative;
+  margin: 0 -1px;
+  padding: 5px;
   display: inline-block;
+  cursor: pointer;
+}
+/* line 114, ../sass/screen.scss */
+.settings label.selected {
+  background: #d35050;
+  color: #f9f9f9;
+}
+/* line 118, ../sass/screen.scss */
+.settings label.selected::before {
+  color: #f9f9f9;
+}
+/* line 121, ../sass/screen.scss */
+.settings label.selected::after {
+  display: block !important;
+}
+/* line 123, ../sass/screen.scss */
+.settings label:hover {
+  text-decoration: underline;
+}
+/* line 124, ../sass/screen.scss */
+.settings label:hover::before {
+  text-decoration: none !important;
+}
+/* line 128, ../sass/screen.scss */
+.settings label input {
+  display: none;
+}
+/* line 132, ../sass/screen.scss */
+.settings label:before {
+  color: #d35050;
+  padding: 0 10px;
+  position: absolute;
+  left: 5px;
+}
+/* line 138, ../sass/screen.scss */
+.settings label.selected:after {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  display: none;
+  content: "\e007";
+  font-size: .9em;
+  color: #f9f9f9;
+  position: absolute;
+  right: 5px;
+  top: 7px;
 }
 
-/* line 99, ../sass/screen.scss */
+/* line 158, ../sass/screen.scss */
 .list-results {
   -webkit-box-shadow: 0px 2px 4px #bbbbbb;
   -moz-box-shadow: 0px 2px 4px #bbbbbb;
@@ -1373,18 +1439,18 @@ header .icon-equalizer {
   height: 100%;
   top: 0;
   left: 0px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.7);
 }
-/* line 110, ../sass/screen.scss */
+/* line 169, ../sass/screen.scss */
 .list-results.hidden {
   left: -400px;
 }
-/* line 114, ../sass/screen.scss */
+/* line 173, ../sass/screen.scss */
 .list-results ul {
   height: 90%;
   overflow: auto;
 }
-/* line 119, ../sass/screen.scss */
+/* line 178, ../sass/screen.scss */
 .list-results li {
   font-size: 1.13em;
   height: 60px;
@@ -1392,76 +1458,85 @@ header .icon-equalizer {
   position: relative;
   outline: none;
 }
-/* line 126, ../sass/screen.scss */
+/* line 186, ../sass/screen.scss */
 .list-results li.selected {
   color: #f9f9f9;
   background: #d35050;
   border-bottom: 1px solid #a33737;
   border-top: 1px solid #a33737;
 }
-/* line 132, ../sass/screen.scss */
+/* line 192, ../sass/screen.scss */
 .list-results li.selected a:hover {
   color: #fff;
 }
-/* line 135, ../sass/screen.scss */
+/* line 195, ../sass/screen.scss */
 .list-results li.selected .stars .icon-star, .list-results li.selected .stars .icon-star-half {
   color: #f9f9f9;
 }
-/* line 136, ../sass/screen.scss */
+/* line 196, ../sass/screen.scss */
 .list-results li.selected .stars .icon-star-empty {
   color: black;
 }
-/* line 138, ../sass/screen.scss */
+/* line 198, ../sass/screen.scss */
 .list-results li.selected .icon-food, .list-results li.selected .icon-house {
   color: #222;
 }
-/* line 141, ../sass/screen.scss */
-.list-results li.selected .is-closed {
+/* line 201, ../sass/screen.scss */
+.list-results li.selected .is-closed, .list-results li.selected .distance {
   color: #f9f9f9;
 }
-/* line 144, ../sass/screen.scss */
+/* line 203, ../sass/screen.scss */
+.list-results li.selected:hover, .list-results li.selected.hovering {
+  background: #d35050;
+}
+/* line 208, ../sass/screen.scss */
 .list-results li.loader {
   text-decoration: underline;
   cursor: pointer;
+  line-height: 40px;
 }
-/* line 148, ../sass/screen.scss */
+/* line 213, ../sass/screen.scss */
 .list-results li.loader:hover {
   color: #d35050;
 }
-/* line 153, ../sass/screen.scss */
+/* line 218, ../sass/screen.scss */
 .list-results li .icon-food, .list-results li .icon-house {
   padding-right: 5px;
   color: #707070;
 }
+/* line 223, ../sass/screen.scss */
+.list-results li:hover, .list-results li.hovering {
+  background: rgba(255, 255, 255, 0.7);
+}
 
-/* line 160, ../sass/screen.scss */
-.is-closed {
+/* line 229, ../sass/screen.scss */
+.is-closed, .distance {
   color: #676767;
   font-size: .85em;
   float: right;
   padding-right: 5px;
 }
 
-/* line 167, ../sass/screen.scss */
+/* line 236, ../sass/screen.scss */
 .stars {
   font-size: .8em;
 }
-/* line 169, ../sass/screen.scss */
+/* line 238, ../sass/screen.scss */
 .stars .icon-star, .stars .icon-star-half {
-  color: #d35050;
+  color: #d35050 !important;
 }
-/* line 172, ../sass/screen.scss */
+/* line 241, ../sass/screen.scss */
 .stars .icon-star-empty {
   color: #777;
 }
 
-/* line 178, ../sass/screen.scss */
+/* line 248, ../sass/screen.scss */
 label .icon-search {
   position: relative;
   right: -10px;
 }
 
-/* line 184, ../sass/screen.scss */
+/* line 254, ../sass/screen.scss */
 input[type='text'] {
   outline: none;
   display: inline-block;
@@ -1476,7 +1551,7 @@ input[type='text'] {
   font-size: 1.2em;
   margin-left: -20px;
 }
-/* line 194, ../sass/screen.scss */
+/* line 264, ../sass/screen.scss */
 input[type='text']:focus {
   -webkit-box-shadow: 0px 0px 8px #d35050;
   -moz-box-shadow: 0px 0px 8px #d35050;

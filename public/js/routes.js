@@ -9,7 +9,6 @@
       showBusiness: function(id) {
         var b;
         b = window.businesses._byId[id];
-        cc(id);
         if (b) {
           return window.businesses.selectItem(b);
         }
