@@ -282,8 +282,9 @@
       render: function() {
         var self;
         self = this;
-        this.$el.children(":not(.loader)").remove();
+        this.$("ul").children(":not(.loader)").remove();
         _.each(this.collection.models, function(business) {
+          cc("render model");
           return self.appendChild(business);
         });
         return this;
@@ -315,11 +316,11 @@
           $(".list-results").toggleClass("hidden");
           return $(e.currentTarget).toggleClass("outside");
         },
-        "change [type='checkbox']": function(e) {
+        "change [name='filterby']": function(e) {
           var $t, checked, filter;
           $t = $(e.currentTarget);
-          checked = $t.is(":checked");
           filter = $t.val();
+          checked = $t.is(":checked");
           $t.parent().toggleClass("selected");
           if (checked === true) {
             this.collection.lookingfor[filter] = true;
@@ -332,6 +333,24 @@
               return bus.hide();
             });
           }
+        },
+        "change [name='sortby']": function(e) {
+          var $t, sort, sorts;
+          sorts = {
+            distance: function(model) {
+              return model.get("distance");
+            },
+            rating: function(model) {
+              return -model.get("rating");
+            }
+          };
+          $t = $(e.currentTarget);
+          sort = $t.val();
+          $t.parent().addClass("selected").siblings(".sortby").removeClass("selected");
+          this.collection.comparator = sorts[sort];
+          this.collection.sort();
+          this.render();
+          return false;
         },
         "click .js-toggle-settings": function() {
           return this.$(".settings").slideToggle("fast");

@@ -60,7 +60,8 @@
     requestobj = {
       ll: q.lat + "," + q.lng,
       offset: q.offset,
-      term: 'food'
+      term: 'food',
+      sort: 1
     };
     json = {
       food: null,

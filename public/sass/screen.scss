@@ -104,9 +104,9 @@ header {
 
     label {
         text-align: center;
-        width: 50%;
+        width: 202px;
         position: relative;
-        margin: 0 -1px;
+        margin: 0 -2px;
         padding: 5px;
         display: inline-block;
         cursor: pointer;
@@ -171,7 +171,7 @@ header {
     }
 
     ul {
-        height: 90%;
+        height: 85%;
         overflow: auto;
     }
 
@@ -265,3 +265,5 @@ input[type='text'] {
         @include box-shadow(0px 0px 8px $selected);
     }
 }
+
+hr { border: 1px solid $darker;}

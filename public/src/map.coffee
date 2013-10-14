@@ -208,8 +208,9 @@ $ ->
         remove: false
     render: ->
       self = @
-      @$el.children(":not(.loader)").remove()
+      @$("ul").children(":not(.loader)").remove()
       _.each @collection.models, (business) ->
+        cc "render model"
         self.appendChild business
       @
     appendChild: (model) ->
@@ -229,10 +230,10 @@ $ ->
       "click .js-toggle-businesses": (e) ->
         $(".list-results").toggleClass "hidden"
         $(e.currentTarget).toggleClass "outside"
-      "change [type='checkbox']": (e) ->
+      "change [name='filterby']": (e) ->
         $t = $ e.currentTarget
-        checked = $t.is(":checked")
         filter = $t.val()
+        checked = $t.is(":checked")
         $t.parent().toggleClass "selected"
         if checked is true
           @collection.lookingfor[filter] = true
@@ -242,6 +243,19 @@ $ ->
           @collection.lookingfor[filter] = false
           _.each @collection[filter], (bus) ->
             bus.hide()
+      "change [name='sortby']": (e) ->
+        sorts = 
+          distance:(model) ->
+            model.get "distance"
+          rating: (model) ->
+            -model.get "rating"
+        $t = $ e.currentTarget
+        sort = $t.val()
+        $t.parent().addClass("selected").siblings(".sortby").removeClass "selected"
+        @collection.comparator = sorts[sort]
+        @collection.sort()
+        @render()
+        false
       "click .js-toggle-settings": ->
         @$(".settings").slideToggle "fast"
       "keyup .js-filter": (e) ->

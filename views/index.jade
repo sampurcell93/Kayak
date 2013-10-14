@@ -17,19 +17,19 @@ html
                     i.icon-equalizer.js-toggle-settings
                 div.settings
                     label.icon-food.selected
-                        input(type='checkbox', name='filter', value='food', checked) 
+                        input(type='checkbox', name='filterby', value='food', checked)
                         | Food
-
                     label.icon-house.selected
-                        input(type='checkbox', name='filter', value='hotel', checked) 
+                        input(type='checkbox', name='filterby', value='hotel', checked)
                         | Hotels
-                    label.icon-star.selected
-                        input(type='radio', name='sortby', value='rating', checked) 
+                    hr
+                    label.icon-star.sortby
+                        input(type='radio', name='sortby', value='rating')
                         | Rating
-
-                    label.icon-house
-                        input(type='radio', name='sortby', value='distance') 
+                    label.icon-house.selected.sortby
+                        input(type='radio', name='sortby', value='distance', checked)
                         | Distance
+                    hr
 
                 ul
                     li.loader.center Load more results

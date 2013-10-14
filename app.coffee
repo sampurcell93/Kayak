@@ -43,6 +43,7 @@ app.get "/search/:lat/:lng/:offset", (req, res) ->
       ll : q.lat + "," + q.lng
       offset: q.offset
       term: 'food'
+      sort: 1
   json = { food: null, hotels: null}
   yelp.search requestobj, (error, food) ->
       if !err?
