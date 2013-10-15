@@ -1,6 +1,6 @@
 Find Somewhere
 ==============
-This challenge took me about ten hours to complete. 
+This challenge took me about ten hours to complete. The live app can be found at http://kayakbaby.herokuapp.com .
 
 What it does
 ------------
