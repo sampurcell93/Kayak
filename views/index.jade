@@ -16,20 +16,20 @@ html
                     i.icon-menu.js-toggle-businesses(data-switch-icon='icon-remove')
                     i.icon-equalizer.js-toggle-settings
                 div.settings
-                    label.icon-food.selected
-                        input(type='checkbox', name='filterby', value='food', checked)
-                        | Food
-                    label.icon-house.selected
-                        input(type='checkbox', name='filterby', value='hotel', checked)
-                        | Hotels
-                    hr
-                    label.icon-star.sortby
-                        input(type='radio', name='sortby', value='rating')
-                        | Rating
-                    label.icon-house.selected.sortby
-                        input(type='radio', name='sortby', value='distance', checked)
-                        | Distance
-                    hr
+                    div(data-tooltip='Show')
+                        label.icon-food.selected
+                            input(type='checkbox', name='filterby', value='food', checked)
+                            | Food
+                        label.icon-house.selected
+                            input(type='checkbox', name='filterby', value='hotel', checked)
+                            | Hotels
+                    div(data-tooltip='Sort By')
+                        label.icon-star.sortby
+                            input(type='radio', name='sortby', value='rating')
+                            | Rating
+                        label.icon-target.selected.sortby
+                            input(type='radio', name='sortby', value='distance', checked)
+                            | Distance
 
                 ul
                     li.loader.center Load more results

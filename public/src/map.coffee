@@ -200,8 +200,11 @@ $ ->
         data: 
           wantfood: @collection.lookingfor.food
           wanthotels: @collection.lookingfor.hotel
-        success: ->
-          $loader.text("Load more results")
+        success: (coll, response) ->
+          if response.food.businesses.length > 0 or response.food.businesses.length > 0
+            $loader.text("Load more results")
+          else
+            $loader.text("Sorry, there are no more nearby businesses!")
         error: ->
           $loader.text("Sorry, there are no more nearby businesses!")
         add: true
@@ -210,13 +213,13 @@ $ ->
       self = @
       @$("ul").children(":not(.loader)").remove()
       _.each @collection.models, (business) ->
-        cc "render model"
         self.appendChild business
       @
     appendChild: (model) ->
       if @collection.lookingfor[model.get("type")] == false then return @
       business = new BusinessItem model: model, list: @
       @$("ul").find(".loader").before business = business.render().el
+      if model.filteredout != false then $(business).hide()
       @
     # args: the model to be selected
     # unselects all items and then
@@ -227,6 +230,18 @@ $ ->
         else item.trigger "select"
       @
     events: 
+      "mouseover [data-tooltip]": (e) ->
+        $t = $ e.currentTarget
+        $t.data "active", true
+        window.setTimeout ->
+          if $t.data("active") == true
+            $(".active-tooltip").removeClass "active-tooltip"
+            $t.addClass "active-tooltip"
+        , 700
+      "mouseleave [data-tooltip]": (e) ->
+        $t = $ e.currentTarget
+        $t.data "active",false
+        $t.removeClass "active-tooltip"
       "click .js-toggle-businesses": (e) ->
         $(".list-results").toggleClass "hidden"
         $(e.currentTarget).toggleClass "outside"
@@ -278,7 +293,11 @@ $ ->
           else
             model.filteredout = true
             false
-        if val == "" then @$(".loader").show()
+        if val == ""
+          @$(".loader").show()
+          collection.filter (model) ->
+            model.filteredout = false
+            true
         else @$(".loader").hide()
       "click .loader": "getMore"
     

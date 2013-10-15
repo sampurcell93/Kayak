@@ -269,8 +269,12 @@
             wantfood: this.collection.lookingfor.food,
             wanthotels: this.collection.lookingfor.hotel
           },
-          success: function() {
-            return $loader.text("Load more results");
+          success: function(coll, response) {
+            if (response.food.businesses.length > 0 || response.food.businesses.length > 0) {
+              return $loader.text("Load more results");
+            } else {
+              return $loader.text("Sorry, there are no more nearby businesses!");
+            }
           },
           error: function() {
             return $loader.text("Sorry, there are no more nearby businesses!");
@@ -284,7 +288,6 @@
         self = this;
         this.$("ul").children(":not(.loader)").remove();
         _.each(this.collection.models, function(business) {
-          cc("render model");
           return self.appendChild(business);
         });
         return this;
@@ -299,6 +302,9 @@
           list: this
         });
         this.$("ul").find(".loader").before(business = business.render().el);
+        if (model.filteredout !== false) {
+          $(business).hide();
+        }
         return this;
       },
       selectItem: function(item) {
@@ -312,6 +318,23 @@
         return this;
       },
       events: {
+        "mouseover [data-tooltip]": function(e) {
+          var $t;
+          $t = $(e.currentTarget);
+          $t.data("active", true);
+          return window.setTimeout(function() {
+            if ($t.data("active") === true) {
+              $(".active-tooltip").removeClass("active-tooltip");
+              return $t.addClass("active-tooltip");
+            }
+          }, 700);
+        },
+        "mouseleave [data-tooltip]": function(e) {
+          var $t;
+          $t = $(e.currentTarget);
+          $t.data("active", false);
+          return $t.removeClass("active-tooltip");
+        },
         "click .js-toggle-businesses": function(e) {
           $(".list-results").toggleClass("hidden");
           return $(e.currentTarget).toggleClass("outside");
@@ -379,7 +402,11 @@
             }
           });
           if (val === "") {
-            return this.$(".loader").show();
+            this.$(".loader").show();
+            return collection.filter(function(model) {
+              model.filteredout = false;
+              return true;
+            });
           } else {
             return this.$(".loader").hide();
           }

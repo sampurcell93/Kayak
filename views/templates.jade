@@ -2,7 +2,8 @@ script(type='text/template')#business-item
     <% function mtomiles(meters) { return (meters/1609.34).toFixed(2)} %>
     div 
         <%= typeof type !== "undefined" && type == "food" ? "<i class='icon-food'></i>" : "<i class='icon-house'></i>" %>
-        <a href="<%= mobile_url %>" title="<%= name %>"><%= name %></a>
+        <%= name %>
+        <a target="_blank" href="<%= mobile_url %>" title="<%= name %>" class='icon-share-alt'></a>
         span.fr.stars
             <% for (i = 0; i < 5; i++) { %>
             <% if (i == rating - 0.5) { %>
@@ -19,14 +20,19 @@ script(type='text/template')#business-item
 
 script(type='text/template')#gmaps-view 
     <% function mtomiles(meters) { return (meters/1609.34).toFixed(2)} %>
-    div.w6
-        h2
-            <%= name %>
-            <%=  " - " + mtomiles(distance) + " miles" %>
-        p.snippet
-            <%= snippet_text %>
-        span.phone Phone: <%= display_phone %>
-        span.fr.stars
+    <% var u = "undefined" %>
+    h2
+        <a href="<%= mobile_url %>" title="<%= name %>">
+        <%= name %><i class='icon-share-alt'></i>
+        </a>
+        <%=  " - " + mtomiles(distance) + " miles" %>
+    p.snippet
+        <img src='<%= typeof image_url !== u ? image_url : ""%>' class='fr' />
+        <%= snippet_text %>
+        br
+        span.phone Phone: <%= typeof display_phone  !== u ? display_phone : "" %>
+        br
+        span.stars
             <% for (i = 0; i < 5; i++) { %>
             <% if (i == rating - 0.5) { %>
             <%= "<i class='icon-star-half'></i>" %>
@@ -35,6 +41,4 @@ script(type='text/template')#gmaps-view
             <% } else { %>
             <%= "<i class='icon-star-empty'></i>" %>
             <% }} %>
-    div.w3.fr
-        <img src='<%= image_url %>' />
-    .clear
+        .clear

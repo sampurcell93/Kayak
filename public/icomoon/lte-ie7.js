@@ -18,7 +18,11 @@ window.onload = function() {
 			'icon-star' : '&#xe00a;',
 			'icon-star-half' : '&#xe00b;',
 			'icon-star-empty' : '&#xe00c;',
-			'icon-checkmark' : '&#xe007;'
+			'icon-checkmark' : '&#xe007;',
+			'icon-target' : '&#xe008;',
+			'icon-share-alt' : '&#xf064;',
+			'icon-caret-up' : '&#xf0d8;',
+			'icon-caret-down' : '&#xf0d7;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, c, el;

@@ -8,6 +8,7 @@
 @import "compass/utilities/general/clearfix";
 @import "build";
 @import "smart-grid";
+$lighter: #E86666;
 $selected: #D35050;
 $darker: #A33737;
 
@@ -59,6 +60,10 @@ h2, .gm-style-iw h2{
         position: relative;
         top: 3px;
     }
+
+    h2 a {
+        font-size: 1.5em !important;
+    }
 }
 
 header {
@@ -68,7 +73,6 @@ header {
     @include filter-gradient(#fcfff4, #e9e9ce, vertical); // IE6-9
     @include background-image(linear-gradient(top,  rgba(252,255,244,1) 0%,rgba(233,233,206,1) 100%));
     padding: 5px 10px;
-    border-bottom: 1px solid #ccc;
     position: relative;
 
     .icon-menu, .icon-equalizer {
@@ -101,8 +105,10 @@ header {
 
 .settings {
     background: #f9f9f9;
+    border-top: 1px solid $darker;
 
     label {
+        border-bottom: 1px solid $darker;
         text-align: center;
         width: 202px;
         position: relative;
@@ -113,6 +119,7 @@ header {
 
         &.selected{
             background: $selected;
+            border-top: 1px solid $lighter;
             color: #f9f9f9;
 
             &::before {
@@ -152,6 +159,7 @@ header {
             right: 5px;
             top: 7px;
         }
+        &.sortby:after { content:"\f0d7"; display: none;}
     }
 }
 
@@ -177,6 +185,7 @@ header {
 
     li {
         @extend .clearfix;
+        cursor: pointer;
         font-size: 1.13em;
         height: 60px;
         padding: 7px;
@@ -192,7 +201,7 @@ header {
             a:hover { color: #fff; }
 
             .stars {
-                .icon-star, .icon-star-half { color: #f9f9f9; }
+                .icon-star, .icon-star-half { color: #f9f9f9 !important; }
                 .icon-star-empty { color: black; }
             }
             .icon-food, .icon-house { 
@@ -243,6 +252,11 @@ header {
     }
 }
 
+.icon-share-alt {
+    font-size: .8em;
+    padding: 0 8px;
+}
+
 
 label {
     .icon-search {
@@ -262,8 +276,40 @@ input[type='text'] {
     margin-left: -20px;
 
     &:focus {
-        @include box-shadow(0px 0px 8px $selected);
+        border: 1px solid $darker;
     }
 }
 
 hr { border: 1px solid $darker;}
+
+[data-tooltip] {
+    position: relative;
+    &:before {
+        position: absolute;
+        content: "";
+        display: none;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-right-color: #181818;
+        border-right-color: rgba(0,0,0,.7);
+        right: -10px;
+        top: 4px;
+    }
+    &:after {
+        @include border-radius(3px);
+        content: attr(data-tooltip);
+        position: absolute;
+        right: -80px;
+        color: #f9f9f9;
+        background: #181818;
+        background: rgba(0,0,0,.7);
+        text-align: center;
+        padding: 5px 10px;
+        top: 1px;
+        width: 50px;
+        display: none;
+    }
+
+    &.active-tooltip:before, &.active-tooltip:after { display: block; }
+}
