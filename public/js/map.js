@@ -517,12 +517,11 @@
         }
       });
     };
-    return begin({
-      coords: {
-        latitude: 42.406705599999995,
-        longitude: -71.1222418
-      }
-    });
+    if (navigator.geolocation) {
+      return navigator.geolocation.getCurrentPosition(begin);
+    } else {
+      return alert("We'll need you to use a browser that supports geolocation! Help yourself!");
+    }
   });
 
 }).call(this);

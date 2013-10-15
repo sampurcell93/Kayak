@@ -381,8 +381,7 @@ $ ->
         wantfood: true
         wanthotels: true
 
-  begin({coords: {latitude: 42.406705599999995, longitude: -71.1222418 }})
-  # if navigator.geolocation
-    # navigator.geolocation.getCurrentPosition begin
-  # else
-    # alert("We'll need you to use a browser that supports geolocation! Help yourself!")
+  if navigator.geolocation
+    navigator.geolocation.getCurrentPosition begin
+  else
+    alert("We'll need you to use a browser that supports geolocation! Help yourself!")
