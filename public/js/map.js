@@ -16,7 +16,7 @@
       filteredout: false,
       hidden: false,
       geoAddr: function() {
-        return "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent(this.fulladdress + "&sensor=true");
+        return "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent(this.get("fulladdress")) + "&sensor=true";
       },
       initialize: function() {
         var self;

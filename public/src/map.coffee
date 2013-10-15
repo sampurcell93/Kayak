@@ -14,7 +14,7 @@ $ ->
     filteredout: false
     hidden: false
     geoAddr: ->
-      "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent @fulladdress + "&sensor=true"
+      "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent(@get("fulladdress")) + "&sensor=true"
     initialize: ->
       @set "fulladdress",  @getAddress()
       _.bindAll @, "plot", "getAddress", "geocode", "bindGoogleEvents"
