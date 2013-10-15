@@ -27,6 +27,60 @@ body {
     background: #333;
     height: 100%;
     overflow: hidden;
+    position: relative;
+    &:after {
+        content: "";
+        position: fixed;
+        display: none;
+        left: 0;
+        top: 0px;
+        width: 100%; 
+        height: 100%;
+        background: rgba(0,0,0,.5);
+        z-index: 9911;
+    }
+
+    &.active-modal { overflow: hidden; }
+
+    &.active-modal::after {
+        display: block;
+    }
+}
+
+.modal {
+    display: block;
+    width: 900px;
+    max-width: 100%;
+    position: fixed;
+    left: 50%;
+    z-index: 9912;
+    margin-left: -450px;
+    top: 3%;
+    max-height: 94%;
+    overflow: auto;
+    background: #f9f9f9;
+    background: rgba(255,255,255,.89);
+    padding:  10px 20px;
+    @include box-shadow(0px 0px 7px #111);
+    @include border-radius(4px);
+    
+    .close-modal {
+        position: absolute;
+        top: 14px;
+        right: 30px;
+        cursor: pointer;
+
+        &:hover {
+            color: $darker;
+        }
+    }
+
+    h2 {
+        font-weight: 400;
+        color: $darker;
+        border-bottom: 1px solid #ccc;
+        padding-right: 40px;
+    }
 }
 
 .map-canvas {
@@ -48,6 +102,8 @@ a {
 p {
     line-height: 1.7;
     padding: 7px;
+
+    img { margin: 10px; }
 
 }
 
@@ -106,15 +162,16 @@ header {
 .settings {
     background: #f9f9f9;
     border-top: 1px solid $darker;
+    @extend .clearfix;
+
 
     label {
         border-bottom: 1px solid $darker;
         text-align: center;
-        width: 202px;
+        width: 50%;
         position: relative;
-        margin: 0 -2px;
         padding: 5px;
-        display: inline-block;
+        float: left;
         cursor: pointer;
 
         &.selected{
@@ -168,6 +225,7 @@ header {
     @include transition(left .4s ease-in-out);
     position: absolute;
     width: 400px;
+    max-width: 100%;
     padding-bottom: 0px;
     height: 100%;
     top: 0 ;
@@ -235,7 +293,7 @@ header {
     }
 }
 
-.is-closed, .distance {
+.is-closed, .distance{
     color: #676767;
     font-size: .85em;
     float: right;
@@ -252,10 +310,12 @@ header {
     }
 }
 
-.icon-share-alt {
+.icon-uniF47D {
     font-size: .8em;
     padding: 0 8px;
 }
+
+.icon-views { font-size: 1.1em; position: relative; top: 2px;}
 
 
 label {
@@ -312,4 +372,14 @@ hr { border: 1px solid $darker;}
     }
 
     &.active-tooltip:before, &.active-tooltip:after { display: block; }
+}
+
+@media all and (max-width: 900px) {
+    .modal {
+        width: auto;
+        margin-left: 5px;
+        left: 5px;
+        right: 10px;
+        top: 10px;
+    }
 }

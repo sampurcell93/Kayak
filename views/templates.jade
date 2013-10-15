@@ -3,7 +3,8 @@ script(type='text/template')#business-item
     div 
         <%= typeof type !== "undefined" && type == "food" ? "<i class='icon-food'></i>" : "<i class='icon-house'></i>" %>
         <%= name %>
-        <a target="_blank" href="<%= mobile_url %>" title="<%= name %>" class='icon-share-alt'></a>
+        <a target="_blank" href="<%= mobile_url %>" title="<%= name %>" class='icon-uniF47D'></a>
+        a.icon-views.js-popout
         span.fr.stars
             <% for (i = 0; i < 5; i++) { %>
             <% if (i == rating - 0.5) { %>
@@ -29,10 +30,9 @@ script(type='text/template')#gmaps-view
     p.snippet
         <img src='<%= typeof image_url !== u ? image_url : ""%>' class='fr' />
         <%= snippet_text %>
-        br
-        span.phone Phone: <%= typeof display_phone  !== u ? display_phone : "" %>
-        br
-        span.stars
+        div.p10 Phone: <%= typeof display_phone  !== u ? display_phone : "" %>
+        div.p10 <%= fulladdress %>
+        div.p10.stars
             <% for (i = 0; i < 5; i++) { %>
             <% if (i == rating - 0.5) { %>
             <%= "<i class='icon-star-half'></i>" %>

@@ -7,17 +7,16 @@ $ ->
     localStorage.cachedlocs = JSON.stringify {}
   cachedlocs = localStorage.cachedlocs
 
-  window.cc = ->
-    _.each arguments, (arg) ->
-      console.log arg
+  cc = ->
+    console.log arguments
 
   Business = Backbone.Model.extend
     filteredout: false
     hidden: false
     geoAddr: ->
-      "https://maps.googleapis.com/maps/api/geocode/json?address=" + @fulladdress + "&sensor=true"
+      "https://maps.googleapis.com/maps/api/geocode/json?address=" + encodeURIComponent @fulladdress + "&sensor=true"
     initialize: ->
-      @fulladdress = @getAddress()
+      @set "fulladdress",  @getAddress()
       _.bindAll @, "plot", "getAddress", "geocode", "bindGoogleEvents"
       @geocode @plot
       self = @
@@ -46,13 +45,15 @@ $ ->
             categories[cat].add self
           else 
             categories[cat] = new Businesses().add self
-            # returns the full address for geocoding via gmaps
+      categories
+    # returns the full address for geocoding via gmaps
     getAddress: ->
       address = @attributes.location.display_address
       str = ""
       _.each address, (line)  ->
-        str += "%20" + encodeURIComponent line
+        str += " " + line
       str
+    # check if the business is in localstorage - if so, bind, else, get google maps data
     geocode: (done) ->
       cache = JSON.parse cachedlocs
       # Check localstorage cache for 
@@ -67,7 +68,6 @@ $ ->
         dataType: 'json'
         type: 'GET'
         success: (json) ->
-          console.count "how are we still fetching"
           try
             geometry = json.results[0].geometry.location
             _.extend self.attributes, geometry
@@ -76,8 +76,9 @@ $ ->
             done()
           catch
             if _error.length
-              console.log "this does not have loc data"
+              console.error "this does not have loc data"
       @
+    # take the model's latitude and long and bind a marker to the model
     plot: ->
       map = window.map.map
       @marker = new google.maps.Marker
@@ -108,7 +109,7 @@ $ ->
       next = coll.at(i + 1)
       if next?
         if active and next.hidden is true
-          return @next next, true
+          return @next next, active
         else return next
       else 
         null 
@@ -120,7 +121,7 @@ $ ->
       prev = coll.at(i - 1)
       if prev?
         if active and prev.hidden is true
-          return @prev prev, true
+          return @prev prev, active
         else return prev
       else 
         null 
@@ -147,6 +148,7 @@ $ ->
     initialize: ->
       @sort()
       @
+    # parse each business
     parse: (response) ->  
       self = @
       models = []
@@ -168,22 +170,27 @@ $ ->
       models
     comparator: (model) ->
       model.get "distance"
+    # returns the number of filtered out items, 
+    # takes a callback to evaluate each model
     filter: (cb) ->
+      num = 0
       _.each @models, (model) ->
         if cb(model) == false
           model.hide()
-        else model.show()
-      @
-
+        else 
+          model.show()
+          num++
+      num
+      
+  # View for the entire list of businesses
   BusinessList = Backbone.View.extend
     el: ".list-results"
     initialize: ->
-      _.bindAll @, "detectScroll", "render", "appendChild", "selectItem"
+      _.bindAll @, "detectScroll", "render", "appendChild", "selectItem", "checkEnd", "getMore"
       @collection.list = @
       self = @
       @listenTo @collection, "add", (model) ->
         self.appendChild model
-      # Backbone events don't bind scroll :(
       # This line has been commented out to disable infinite scroll
       # @$("ul").scroll @detectScroll
       @
@@ -203,23 +210,27 @@ $ ->
         success: (coll, response) ->
           if response.food.businesses.length > 0 or response.food.businesses.length > 0
             $loader.text("Load more results")
+            $(".js-filter").trigger "keyup"
           else
             $loader.text("Sorry, there are no more nearby businesses!")
         error: ->
           $loader.text("Sorry, there are no more nearby businesses!")
         add: true
         remove: false
+    # render every item in the list
     render: ->
       self = @
       @$("ul").children(":not(.loader)").remove()
       _.each @collection.models, (business) ->
         self.appendChild business
       @
+    # template a model and append it to the list
     appendChild: (model) ->
-      if @collection.lookingfor[model.get("type")] == false then return @
       business = new BusinessItem model: model, list: @
       @$("ul").find(".loader").before business = business.render().el
-      if model.filteredout != false then $(business).hide()
+      # If the model is filtered hide it, or if it should be filtered, hide it
+      if model.filteredout != false or @collection.lookingfor[model.get("type")] == false
+        $(business).hide()
       @
     # args: the model to be selected
     # unselects all items and then
@@ -278,7 +289,7 @@ $ ->
         val = $t.val().toLowerCase().replace(" ","")
         self = @
         collection = @collection
-        @collection.filter (model) ->
+        filtered = @collection.filter (model) ->
           if collection.lookingfor[model.get("type")] != true then return false
           # Strip the name for more hits
           title = model.get("name").replace(" ", "").replace("'","").toLowerCase()
@@ -298,6 +309,8 @@ $ ->
           collection.filter (model) ->
             model.filteredout = false
             true
+        else if filtered ==  0
+          @$(".loader").show()
         else @$(".loader").hide()
       "click .loader": "getMore"
     
@@ -305,6 +318,7 @@ $ ->
     template: $("#business-item").html()
     tagName: 'li tabindex="1"'
     initialize: ->
+      _.bindAll @, "render", "select", "deselect", "hide", "show"
       @list = @options.list
       self = @
       @listenTo @model,
@@ -329,24 +343,40 @@ $ ->
       @$el.hide().addClass "hidden"
     show: ->
       @$el.show().removeClass "hidden"
+    showFull: ->
+      launchModal new GMapBusiness({model: @model}).render().el,  { destroyHash: true }
+      window.app.navigate "/business/" + @model.get("id") + "/full"
+      @
     events: 
       select: "select"
       deselect: "deselect"
       "click": ->
         @list.selectItem @model
-        cc @model.toJSON()
       "keydown": (e) ->
         key = e.keyCode || e.which
+        # the visible items
+        pos = @$el.index()
         # next bindings
         if key == 39 || key == 40 || (key == 9 && e.shiftKey == false)
-          el = @$el.trigger("deselect").next(":not(.hidden)").trigger "click" # :hidden was unresponsive...
+          n = @model.next(null, true)
+          if n?
+            @deselect()
+            n.trigger "select"
           e.preventDefault()
         # prev bindings
         else if key == 37 || key == 38 || (key == 9 && e.shiftKey == true)
-          @$el.trigger("deselect").prev(":not(.hidden)").trigger "click"
+          p = @model.prev(null, true)
+          if p?
+            p.trigger "select"
+            @deselect()
           e.preventDefault()
+      "click .js-popout": (e) ->
+        @showFull()
+        e.stopPropagation()
 
-  GMapBusiness = Backbone.View.extend
+  # View for a google map infowindow. simple now, but 
+  # extensible because the el is returned, allowing event binding
+  window.GMapBusiness = Backbone.View.extend
     template: $("#gmaps-view").html()
     render: ->
       @$el.html(_.template @template, @model.toJSON())
@@ -376,11 +406,20 @@ $ ->
     window.businesses = _.extend c = new Businesses(), coords
     businesses.map = map
     businesslist = new BusinessList collection: c
+    businesses.list = businesslist
     businesses.fetch 
       data:
         wantfood: true
         wanthotels: true
+        sort_by: "distance"
+      success: (coll) ->
+        # Since each parse triggered an add event without sorting,
+        #  we want to render after completion of parsing
+        coll.list.render()
+        window.app = new WorkSpace
+        Backbone.history.start()
 
+  # Get user location
   if navigator.geolocation
     navigator.geolocation.getCurrentPosition begin
   else

@@ -7,11 +7,7 @@ window.onload = function() {
 	}
 	var icons = {
 			'icon-menu' : '&#xe000;',
-			'icon-settings' : '&#xe001;',
 			'icon-equalizer' : '&#xe002;',
-			'icon-code' : '&#xe003;',
-			'icon-remove' : '&#xe004;',
-			'icon-fighter-jet' : '&#xe005;',
 			'icon-food' : '&#xe006;',
 			'icon-house' : '&#xe009;',
 			'icon-search' : '&#xe014;',
@@ -20,9 +16,11 @@ window.onload = function() {
 			'icon-star-empty' : '&#xe00c;',
 			'icon-checkmark' : '&#xe007;',
 			'icon-target' : '&#xe008;',
-			'icon-share-alt' : '&#xf064;',
 			'icon-caret-up' : '&#xf0d8;',
-			'icon-caret-down' : '&#xf0d7;'
+			'icon-caret-down' : '&#xf0d7;',
+			'icon-views' : '&#xe00d;',
+			'icon-uniF47D' : '&#xf47d;',
+			'icon-cancel' : '&#xe001;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, c, el;

@@ -23,6 +23,7 @@ html
                         label.icon-house.selected
                             input(type='checkbox', name='filterby', value='hotel', checked)
                             | Hotels
+                        .clear
                     div(data-tooltip='Sort By')
                         label.icon-star.sortby
                             input(type='radio', name='sortby', value='rating')
@@ -30,6 +31,7 @@ html
                         label.icon-target.selected.sortby
                             input(type='radio', name='sortby', value='distance', checked)
                             | Distance
+                        .clear
 
                 ul
                     li.loader.center Load more results
@@ -38,5 +40,4 @@ html
     script(type='text/javascript', src='../js/jquery.js')
     script(type='text/javascript', src='../js/underscore.js')
     script(type='text/javascript', src='../js/backbone.js')
-    script(type='text/javascript', src='../js/map.js')
-    script(type='text/javascript', src='../js/routes.js')
+    script(type='text/javascript', src='../js/final.min.js')

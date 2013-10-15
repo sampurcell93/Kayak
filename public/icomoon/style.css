@@ -28,7 +28,7 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="icon-"] {
 */
-.icon-menu, .icon-settings, .icon-equalizer, .icon-code, .icon-remove, .icon-fighter-jet, .icon-food, .icon-house, .icon-search, .icon-star, .icon-star-half, .icon-star-empty, .icon-checkmark, .icon-target, .icon-share-alt, .icon-caret-up, .icon-caret-down {
+.icon-menu, .icon-equalizer, .icon-food, .icon-house, .icon-search, .icon-star, .icon-star-half, .icon-star-empty, .icon-checkmark, .icon-target, .icon-caret-up, .icon-caret-down, .icon-views, .icon-uniF47D, .icon-cancel {
 	font-family: 'icomoon';
 	speak: none;
 	font-style: normal;
@@ -41,20 +41,8 @@ you can use the generic selector below, but it's slower:
 .icon-menu:before {
 	content: "\e000";
 }
-.icon-settings:before {
-	content: "\e001";
-}
 .icon-equalizer:before {
 	content: "\e002";
-}
-.icon-code:before {
-	content: "\e003";
-}
-.icon-remove:before {
-	content: "\e004";
-}
-.icon-fighter-jet:before {
-	content: "\e005";
 }
 .icon-food:before {
 	content: "\e006";
@@ -80,12 +68,18 @@ you can use the generic selector below, but it's slower:
 .icon-target:before {
 	content: "\e008";
 }
-.icon-share-alt:before {
-	content: "\f064";
-}
 .icon-caret-up:before {
 	content: "\f0d8";
 }
 .icon-caret-down:before {
 	content: "\f0d7";
+}
+.icon-views:before {
+	content: "\e00d";
+}
+.icon-uniF47D:before {
+	content: "\f47d";
+}
+.icon-cancel:before {
+	content: "\e001";
 }
